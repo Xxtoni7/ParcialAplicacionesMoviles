@@ -25,12 +25,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun PantallaPrincipal(modifier: Modifier = Modifier){
+fun PantallaPrincipal(navController: NavController, modifier: Modifier = Modifier){
     var saldo by remember { mutableStateOf(5000) }
     var montoRetiro by remember { mutableStateOf("") }
     var hayError by remember { mutableStateOf(false) }
@@ -41,7 +43,7 @@ fun PantallaPrincipal(modifier: Modifier = Modifier){
             CenterAlignedTopAppBar(
                 title = {
                     Text("BankOfAmerica",
-                        //style = MaterialTheme.typography.titleLarge
+                        style = MaterialTheme.typography.titleLarge
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -100,7 +102,7 @@ fun PantallaPrincipal(modifier: Modifier = Modifier){
                                 saldo -= monto
                                 hayError = false
                                 // TODO navegar al comprobante
-                                println("Retiro exitoso de $$monto")
+                                navController.navigate("Comprobante/$monto")
                             }
                         },
                         modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -115,6 +117,7 @@ fun PantallaPrincipal(modifier: Modifier = Modifier){
 
 @Preview
 @Composable
-fun PantallaPrincipalPreview(){
-    PantallaPrincipal()
+fun PantallaPrincipalPreview() {
+    val navController = rememberNavController()
+    PantallaPrincipal(navController = navController)
 }
